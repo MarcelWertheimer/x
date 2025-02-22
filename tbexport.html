@@ -1,13 +1,33 @@
-<!DOCTYPE html>
-<meta name="viewport" content="user-scalable=0"/>
 <html>
-<head>
-    <title> The Eclipse of Innocence</title>
-    <script src="https://viewer.marmoset.co/main/marmoset.js"></script>
-</head>
-<body>
+  <head>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <script src="https://threejs.org/examples/js/controls/OrbitControls.js"></script>
+    <script src="https://threejs.org/examples/js/loaders/GLTFLoader.js"></script>
+  </head>
+  <body>
+    <canvas id="turntable"></canvas>
     <script>
-        marmoset.embed( 'tbexport.mview', { width: 1920, height: 1080, autoStart: true, fullFrame: true, pagePreset: false } );
+      var scene = new THREE.Scene();
+      var camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
+      var renderer = new THREE.WebGLRenderer({ canvas: document.getElementById("turntable") });
+      renderer.setSize(window.innerWidth, window.innerHeight);
+      document.body.appendChild(renderer.domElement);
+
+      // Replace with your Google Drive direct download link
+      var loader = new THREE.GLTFLoader();
+      loader.load('https://drive.google.com/uc?id=1EZjGHMJuoeLJMFJQzE35wERD8LVqCk2L', function (gltf) {
+        scene.add(gltf.scene);
+      });
+
+      var controls = new THREE.OrbitControls(camera, renderer.domElement);
+      camera.position.z = 5;
+
+      var animate = function () {
+        requestAnimationFrame(animate);
+        controls.update();
+        renderer.render(scene, camera);
+      };
+      animate();
     </script>
-</body>
+  </body>
 </html>
